@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}OWASP Top 10{% endblock %}
+{% block content %}
+<h1>OWASP Top 10:2021 – Mapping to VulnLab</h1>
+<p>This page maps each <a href="https://owasp.org/Top10/" target="_blank" rel="noopener">OWASP Top 10:2021</a> category to labs in this site. Use it to plan your testing and understand impact.</p>
+<table class="owasp-table">
+    <thead>
+        <tr><th>Category</th><th>Labs in VulnLab</th><th>Impact (summary)</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>A01:2021</strong> Broken Access Control</td>
+            <td><a href="{{ url_for('idor.user_profile', user_id=1) }}">IDOR</a>, <a href="{{ url_for('path_traversal.index') }}">Path Traversal</a>, <a href="{{ url_for('csrf.index') }}">CSRF</a></td>
+            <td>Access other users’ data, read arbitrary files, perform actions as victim.</td>
+        </tr>
+        <tr>
+            <td><strong>A02:2021</strong> Cryptographic Failures</td>
+            <td><a href="{{ url_for('crypto.index') }}">Crypto</a>, <a href="{{ url_for('misc.config') }}">Config</a> (plaintext/keys)</td>
+            <td>Credential theft, session forgery, PII disclosure.</td>
+        </tr>
+        <tr>
+            <td><strong>A03:2021</strong> Injection</td>
+            <td><a href="{{ url_for('sqli.index') }}">SQLi</a>, <a href="{{ url_for('cmd_injection.index') }}">Command Injection</a>; XSS (client-side)</td>
+            <td>Data breach, RCE, account takeover.</td>
+        </tr>
+        <tr>
+            <td><strong>A04:2021</strong> Insecure Design</td>
+            <td>Design flaws across labs (e.g. trust user input, no defense in depth)</td>
+            <td>Harder to fix with patches; requires design changes.</td>
+        </tr>
+        <tr>
+            <td><strong>A05:2021</strong> Security Misconfiguration</td>
+            <td><a href="{{ url_for('auth.login') }}">Default creds</a>, <a href="{{ url_for('misc.debug') }}">Debug</a> mode, <a href="{{ url_for('misc.config') }}">Config</a> exposure</td>
+            <td>Easier exploitation, credential leak, info disclosure.</td>
+        </tr>
+        <tr>
+            <td><strong>A06:2021</strong> Vulnerable and Outdated Components</td>
+            <td>See README; use real scanners (e.g. Snyk, Dependabot) in real apps</td>
+            <td>Known CVEs lead to RCE, XSS, or data loss.</td>
+        </tr>
+        <tr>
+            <td><strong>A07:2021</strong> Identification and Authentication Failures</td>
+            <td><a href="{{ url_for('auth.login') }}">Broken Auth</a> (plaintext, no rate limit)</td>
+            <td>Brute force, credential stuffing, session hijack.</td>
+        </tr>
+        <tr>
+            <td><strong>A08:2021</strong> Software and Data Integrity Failures</td>
+            <td><a href="{{ url_for('deserialize.index') }}">Insecure Deserialization</a></td>
+            <td>RCE via malicious serialized payloads.</td>
+        </tr>
+        <tr>
+            <td><strong>A09:2021</strong> Security Logging and Monitoring Failures</td>
+            <td>Not implemented (no logging of failed logins, etc.)</td>
+            <td>Attacks go undetected; no audit trail.</td>
+        </tr>
+        <tr>
+            <td><strong>A10:2021</strong> Server-Side Request Forgery (SSRF)</td>
+            <td><a href="{{ url_for('ssrf.index') }}">SSRF</a></td>
+            <td>Access internal services, cloud metadata, bypass firewall.</td>
+        </tr>
+    </tbody>
+</table>
+<p><strong>Cross-cutting:</strong> Reflected and <a href="{{ url_for('xss.stored') }}">Stored XSS</a> are often considered under Injection (A03) or as a separate client-side risk; they enable session theft and content manipulation.</p>
+{% endblock %}

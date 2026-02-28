@@ -21,3 +21,8 @@ def config():
 def debug():
     # Verbose error / debug info exposure
     raise ValueError("Intentional debug exception: SECRET_KEY=" + current_app.config.get("SECRET_KEY", ""))
+
+
+@bp.route("/owasp")
+def owasp():
+    return render_template("owasp.html")

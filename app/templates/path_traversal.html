@@ -13,6 +13,17 @@
         <li>In Docker the app runs on Linux, so <code>/etc/passwd</code> is a good target. The fix is to validate the final path and ensure it stays under the allowed directory.</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> A01:2021 Broken Access Control (CWE-22)</p>
+    <p><strong>Impact:</strong> Read arbitrary files (config, source code, /etc/passwd); in some cases write (if upload + path traversal).</p>
+    <details><summary>Example payloads</summary>
+        <ul>
+            <li><code>../../../etc/passwd</code> (Linux/Docker)</li>
+            <li><code>..\..\..\windows\system32\drivers\etc\hosts</code> (Windows)</li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Use a safe base path and <code>os.path.realpath</code>; reject if resolved path is not under base; avoid user input in file paths.</p>
+</div>
 <form method="get" action="{{ url_for('path_traversal.read') }}">
     <label>Filename: <input type="text" name="name" value="welcome.txt" /></label>
     <button type="submit">Read</button>

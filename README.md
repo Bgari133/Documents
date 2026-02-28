@@ -26,21 +26,29 @@ pip install -r requirements.txt
 python run.py
 ```
 
+## OWASP Top 10:2021 mapping
+
+The app includes labs aligned to [OWASP Top 10:2021](https://owasp.org/Top10/). Open **/owasp** in the browser for a full mapping table (A01–A10) with impact and links to each lab.
+
 ## Vulnerabilities (intentional)
 
-| # | Vulnerability | Route | Notes |
-|---|----------------|-------|--------|
-| 1 | SQL Injection | `/sqli` | Raw SQL concatenation; try `' OR '1'='1` |
-| 2 | Reflected XSS | `/xss/reflected` | Query echoed without encoding |
-| 3 | Stored XSS | `/xss/stored` | Comments stored and rendered with `\|safe` |
-| 4 | Broken Authentication | `/auth/login` | Weak check, default creds, no rate limit |
-| 5 | IDOR | `/users/<id>` | No ownership/role check; IDs 1–3 exist |
-| 6 | Path Traversal | `/file` | `name` parameter not sanitized |
-| 7 | Command Injection | `/cmd` | Host passed to `ping` via shell |
-| 8 | CSRF | `/transfer` | No CSRF token on transfer form |
-| 9 | Insecure Deserialization | `/deserialize` | Base64 pickle deserialized with `pickle.loads` |
-| 10 | Sensitive Data Exposure | `/config`, `/debug` | Config and env leaked; debug raises with secret |
-| 11 | Security Misconfiguration | App-wide | `DEBUG=True`, default credentials in this README |
+| # | OWASP | Vulnerability | Route | Notes |
+|---|-------|----------------|-------|--------|
+| 1 | A03 | SQL Injection | `/sqli` | Raw SQL concatenation; try `' OR '1'='1` |
+| 2 | – | Reflected XSS | `/xss/reflected` | Query echoed without encoding |
+| 3 | – | Stored XSS | `/xss/stored` | Comments stored and rendered with `\|safe` |
+| 4 | A07 | Broken Authentication | `/auth/login` | Weak check, default creds, no rate limit |
+| 5 | A01 | IDOR | `/users/<id>` | No ownership/role check; IDs 1–3 exist |
+| 6 | A01 | Path Traversal | `/file` | `name` parameter not sanitized |
+| 7 | A03 | Command Injection | `/cmd` | Host passed to `ping` via shell |
+| 8 | A01 | CSRF | `/transfer` | No CSRF token on transfer form |
+| 9 | A08 | Insecure Deserialization | `/deserialize` | Base64 pickle deserialized with `pickle.loads` |
+| 10 | A10 | SSRF | `/ssrf` | Server fetches user-supplied URL (no allowlist) |
+| 11 | A02 | Cryptographic Failures | `/crypto` | MD5 “hashing”, plaintext passwords in DB |
+| 12 | A02/A05 | Sensitive Data Exposure | `/config`, `/debug` | Config and env leaked; debug raises with secret |
+| 13 | A05 | Security Misconfiguration | App-wide | `DEBUG=True`, default credentials in this README |
+
+Each lab page includes **exploitation details**: OWASP category, impact, example payloads (expandable), and remediation.
 
 ## Default credentials
 

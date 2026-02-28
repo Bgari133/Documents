@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}SSRF{% endblock %}
+{% block content %}
+<h1>Server-Side Request Forgery (SSRF) Lab</h1>
+<p><strong>OWASP:</strong> A10:2021 – Server-Side Request Forgery</p>
+<div class="explanation">
+    <strong>What is it?</strong> The server fetches a URL that you provide. An attacker can make it request internal services (e.g. <code>http://127.0.0.1:5000/admin</code>, cloud metadata <code>http://169.254.169.254/</code>), bypassing firewall and stealing data the server can reach.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Try a public URL first: <code>https://example.com</code>. Then try <code>http://127.0.0.1:5000/</code> to fetch this app from the server’s perspective (localhost).</li>
+        <li>On cloud VMs, metadata is at <code>http://169.254.169.254/latest/meta-data/</code> (AWS). The server will fetch it and show the response.</li>
+        <li>Use <code>file:///etc/passwd</code> only if the library supports file: (many do in Python).</li>
+    </ul>
+</details>
+<div class="exploit-details">
+    <p><strong>Impact:</strong> Read internal APIs, cloud metadata (credentials), scan internal network, bypass access controls.</p>
+    <details><summary>Example payloads</summary>
+        <ul>
+            <li><code>http://127.0.0.1:5000/config</code> – fetch config via server’s localhost</li>
+            <li><code>http://169.254.169.254/latest/meta-data/</code> – AWS instance metadata</li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Allowlist allowed hosts/schemes; block private IP ranges and metadata; use a dedicated outbound service with strict rules.</p>
+</div>
+<form method="post">
+    <label>URL to fetch: <input type="text" name="url" placeholder="https://example.com" style="width: 100%; max-width: 400px;" /></label>
+    <button type="submit">Fetch</button>
+</form>
+{% if result %}
+<pre>{{ result }}</pre>
+{% endif %}
+{% endblock %}

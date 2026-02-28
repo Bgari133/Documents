@@ -13,6 +13,18 @@
         <li>In a real attack you’d send a link with the payload in the <code>q</code> parameter so the victim’s browser executes your script when they open it.</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> Related to A03 Injection (client-side); also in CWE-79</p>
+    <p><strong>Impact:</strong> Steal session cookies, redirect to phishing, keylogging, defacement; full account takeover if session in cookie.</p>
+    <details><summary>Example payloads</summary>
+        <ul>
+            <li><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></li>
+            <li><code>&lt;img src=x onerror=alert(document.cookie)&gt;</code></li>
+            <li><code>&lt;svg onload=alert(1)&gt;</code></li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Encode output (e.g. HTML escape); use Content-Security-Policy; HttpOnly and SameSite on cookies.</p>
+</div>
 <form method="get" action="">
     <label>Query: <input type="text" name="q" value="{{ q }}" /></label>
     <button type="submit">Search</button>

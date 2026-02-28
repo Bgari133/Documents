@@ -13,6 +13,16 @@
         <li>Or use a one-line link that does a GET (only if the app accepted GET for transfers—here it’s POST, so you need a form). The fix is to require a CSRF token that only the real site can provide.</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> A01:2021 Broken Access Control (CSRF)</p>
+    <p><strong>Impact:</strong> Victim performs unwanted state-changing actions (transfer, change email, delete) while logged in; no consent.</p>
+    <details><summary>Example exploitation</summary>
+        <ul>
+            <li>Create a page with <code>&lt;form action="http://localhost:5000/transfer/" method="POST"&gt;</code> and hidden <code>to_user</code>, <code>amount</code>; auto-submit. When victim visits, transfer runs with their session.</li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> CSRF token (synchronizer token or double-submit cookie); SameSite=Strict/Lax on cookies; check Referer/Origin for API.</p>
+</div>
 <p>Your balance: {{ balance }}</p>
 {% if msg %}<p class="success">{{ msg }}</p>{% endif %}
 <form method="post">

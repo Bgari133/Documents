@@ -3,18 +3,21 @@
 {% block content %}
 <h1>VulnLab – Pen-Test Training Site</h1>
 <p>This application is intentionally vulnerable for authorized security training only.</p>
-<p><strong>Each lab page has an explanation and expandable hints</strong>—click “Hints (click to expand)” on a challenge to get step-by-step guidance without full solutions.</p>
+<p><strong>Each lab page has an explanation, expandable hints, and exploitation details</strong> (OWASP category, impact, example payloads, remediation). Start with the <a href="{{ url_for('misc.owasp') }}">OWASP Top 10</a> map to see how labs align to OWASP:2021.</p>
 <ul class="vuln-list">
-    <li><a href="{{ url_for('sqli.index') }}">1. SQL Injection</a> – /sqli</li>
+    <li><a href="{{ url_for('misc.owasp') }}">OWASP Top 10:2021</a> – Map of all categories to labs</li>
+    <li><a href="{{ url_for('sqli.index') }}">1. SQL Injection (A03)</a> – /sqli</li>
     <li><a href="{{ url_for('xss.reflected') }}">2. Reflected XSS</a> – /xss/reflected</li>
     <li><a href="{{ url_for('xss.stored') }}">3. Stored XSS</a> – /xss/stored</li>
-    <li><a href="{{ url_for('auth.login') }}">4. Broken Authentication</a> – /auth/login</li>
-    <li><a href="{{ url_for('idor.user_profile', user_id=1) }}">5. IDOR</a> – /users/&lt;id&gt;</li>
-    <li><a href="{{ url_for('path_traversal.index') }}">6. Path Traversal</a> – /file</li>
-    <li><a href="{{ url_for('cmd_injection.index') }}">7. Command Injection</a> – /cmd</li>
-    <li><a href="{{ url_for('csrf.index') }}">8. CSRF</a> – /transfer</li>
-    <li><a href="{{ url_for('deserialize.index') }}">9. Insecure Deserialization</a> – /deserialize</li>
-    <li><a href="{{ url_for('misc.config') }}">10. Sensitive Data Exposure</a> – /config</li>
-    <li><a href="{{ url_for('auth.login') }}">11. Security Misconfiguration</a> – DEBUG=True, default credentials in README; try default creds and check error pages for leaked data.</li>
+    <li><a href="{{ url_for('auth.login') }}">4. Broken Authentication (A07)</a> – /auth/login</li>
+    <li><a href="{{ url_for('idor.user_profile', user_id=1) }}">5. IDOR (A01)</a> – /users/&lt;id&gt;</li>
+    <li><a href="{{ url_for('path_traversal.index') }}">6. Path Traversal (A01)</a> – /file</li>
+    <li><a href="{{ url_for('cmd_injection.index') }}">7. Command Injection (A03)</a> – /cmd</li>
+    <li><a href="{{ url_for('csrf.index') }}">8. CSRF (A01)</a> – /transfer</li>
+    <li><a href="{{ url_for('deserialize.index') }}">9. Insecure Deserialization (A08)</a> – /deserialize</li>
+    <li><a href="{{ url_for('ssrf.index') }}">10. SSRF (A10)</a> – /ssrf</li>
+    <li><a href="{{ url_for('crypto.index') }}">11. Cryptographic Failures (A02)</a> – /crypto</li>
+    <li><a href="{{ url_for('misc.config') }}">12. Sensitive Data Exposure</a> – /config</li>
+    <li><a href="{{ url_for('auth.login') }}">13. Security Misconfiguration (A05)</a> – DEBUG, default creds</li>
 </ul>
 {% endblock %}

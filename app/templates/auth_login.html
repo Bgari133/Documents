@@ -13,6 +13,18 @@
         <li>Passwords are compared in plaintext; if you could read the DB (e.g. via SQLi), you’d see them directly.</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> A07:2021 Identification and Authentication Failures</p>
+    <p><strong>Impact:</strong> Account takeover via default/weak creds, brute force (no rate limit), or credential stuffing; session fixation if applicable.</p>
+    <details><summary>Example issues</summary>
+        <ul>
+            <li>Default credentials: admin / admin (see README)</li>
+            <li>No lockout or rate limiting – unlimited password attempts</li>
+            <li>Passwords stored and compared in plaintext</li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Strong password policy; MFA; rate limiting and lockout; bcrypt/Argon2 hashing; no default creds in production.</p>
+</div>
 {% if error %}<p class="error">{{ error }}</p>{% endif %}
 <form method="post">
     <label>Username: <input type="text" name="username" /></label>

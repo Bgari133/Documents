@@ -14,6 +14,18 @@
         <li>To list all columns/tables: in SQLite you can use <code>UNION SELECT</code> with the same number of columns (here: id, username, email).</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> A03:2021 Injection</p>
+    <p><strong>Impact:</strong> Read, modify, or delete database data; bypass authentication; in some setups, run OS commands or read files.</p>
+    <details><summary>Example payloads</summary>
+        <ul>
+            <li><code>' OR '1'='1</code> – return all rows</li>
+            <li><code>' UNION SELECT id, username, password FROM users--</code> – dump passwords (match column count)</li>
+            <li><code>'; DROP TABLE users--</code> – destructive (if DB allows multiple statements)</li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Use parameterized queries or ORM; never concatenate user input into SQL; principle of least privilege for DB user.</p>
+</div>
 <form method="post">
     <label>Username: <input type="text" name="q" placeholder="e.g. admin" /></label>
     <button type="submit">Search</button>

@@ -6,6 +6,8 @@ from app.routes.path_traversal import bp as path_traversal_bp
 from app.routes.cmd_injection import bp as cmd_injection_bp
 from app.routes.csrf import bp as csrf_bp
 from app.routes.deserialize import bp as deserialize_bp
+from app.routes.ssrf import bp as ssrf_bp
+from app.routes.crypto import bp as crypto_bp
 from app.routes.misc import bp as misc_bp
 
 __all__ = [
@@ -17,5 +19,7 @@ __all__ = [
     "cmd_injection_bp",
     "csrf_bp",
     "deserialize_bp",
+    "ssrf_bp",
+    "crypto_bp",
     "misc_bp",
 ]

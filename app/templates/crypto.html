@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Cryptographic Failures{% endblock %}
+{% block content %}
+<h1>Cryptographic Failures Lab (A02:2021)</h1>
+<p><strong>OWASP:</strong> A02:2021 – Cryptographic Failures</p>
+<div class="explanation">
+    <strong>What is it?</strong> Data is protected with weak or no cryptography: plaintext passwords, MD5/SHA1 for password hashing, missing TLS, or sensitive data at rest unencrypted. Attackers can steal or crack credentials and sensitive data.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>This app “hashes” passwords with MD5. MD5 is fast to brute-force and has known collisions—never use it for passwords.</li>
+        <li>Check the table below: passwords are stored in <strong>plaintext</strong>. Anyone with DB access (e.g. via SQLi) gets all passwords.</li>
+        <li>Use bcrypt, scrypt, or Argon2 with a salt for password hashing; encrypt sensitive data at rest and in transit (TLS).</li>
+    </ul>
+</details>
+<div class="exploit-details">
+    <p><strong>Impact:</strong> Credential theft, account takeover, disclosure of PII; compliance failures (e.g. PCI-DSS, GDPR).</p>
+    <details><summary>Example issues</summary>
+        <ul>
+            <li>Storing passwords in plaintext or with MD5/SHA1</li>
+            <li>No TLS for login or sensitive pages</li>
+            <li>Weak or default crypto keys in config</li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Store passwords with a strong KDF (bcrypt/Argon2); use TLS 1.2+; encrypt sensitive fields at rest; avoid deprecated algorithms (MD5, SHA1 for security).</p>
+</div>
+<form method="post">
+    <label>Password to “hash” (MD5 – weak): <input type="text" name="password" placeholder="password123" /></label>
+    <button type="submit">Hash</button>
+</form>
+{% if hash_result %}<p>MD5 hash: <code>{{ hash_result }}</code></p>{% endif %}
+<h2>Users table (passwords stored in plaintext)</h2>
+<table>
+    <thead><tr><th>Username</th><th>Password (plaintext)</th></tr></thead>
+    <tbody>
+    {% for u in users_plain %}
+    <tr><td>{{ u.username }}</td><td>{{ u.password }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

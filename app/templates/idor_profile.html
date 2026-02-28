@@ -13,6 +13,16 @@
         <li>Fix: the server should check that the logged-in user is allowed to see the requested resource (e.g. only their own profile or admin role).</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> A01:2021 Broken Access Control</p>
+    <p><strong>Impact:</strong> Unauthorized read/update of other users’ data; privilege escalation; disclosure of PII (e.g. emails, passwords).</p>
+    <details><summary>Example exploitation</summary>
+        <ul>
+            <li>Change URL from <code>/users/1</code> to <code>/users/2</code> or <code>/users/3</code> to view other users’ profiles and passwords.</li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Check authorization on every request (e.g. “can this user access this resource?”); use indirect references or tokens instead of predictable IDs where appropriate.</p>
+</div>
 <dl>
     <dt>ID</dt><dd>{{ user.id }}</dd>
     <dt>Username</dt><dd>{{ user.username }}</dd>

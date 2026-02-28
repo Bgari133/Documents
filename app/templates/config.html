@@ -13,6 +13,16 @@
         <li>Use leaked <code>SECRET_KEY</code> to sign or forge session cookies (e.g. with Flask’s session format). Fix: never expose config/debug in production; use env vars and restrict error pages.</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> A02 Cryptographic Failures / A05 Security Misconfiguration</p>
+    <p><strong>Impact:</strong> Theft of secrets (API keys, DB URLs, SECRET_KEY); session forgery; access to internal services via env.</p>
+    <details><summary>Example exploitation</summary>
+        <ul>
+            <li>Read SECRET_KEY from this page or from /debug traceback; use it to sign a cookie that sets user_id=1 (admin).</li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Never expose config or stack traces in production; store secrets in env or secret manager; disable debug mode.</p>
+</div>
 <h2>Config</h2>
 <pre>{% for k, v in config.items() %}{{ k }}: {{ v }}
 {% endfor %}</pre>

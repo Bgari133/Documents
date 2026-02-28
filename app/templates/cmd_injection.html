@@ -13,6 +13,18 @@
         <li>In Docker the container is Linux, so use Linux commands (<code>whoami</code>, <code>id</code>, <code>cat /etc/passwd</code>). Fix: use an allowlist or an API that doesn’t invoke a shell.</li>
     </ul>
 </details>
+<div class="exploit-details">
+    <p><strong>OWASP:</strong> A03:2021 Injection (CWE-78)</p>
+    <p><strong>Impact:</strong> Full command execution as the app user; data exfiltration, backdoor, lateral movement.</p>
+    <details><summary>Example payloads</summary>
+        <ul>
+            <li><code>127.0.0.1 &amp;&amp; whoami</code></li>
+            <li><code>; cat /etc/passwd</code></li>
+            <li><code>| id</code> or <code>$(id)</code></li>
+        </ul>
+    </details>
+    <p><strong>Remediation:</strong> Avoid shell invocation; use allowlisted inputs or safe APIs (e.g. library to ping); run with minimal privileges.</p>
+</div>
 <form method="post">
     <label>Host: <input type="text" name="host" value="127.0.0.1" /></label>
     <button type="submit">Ping</button>
