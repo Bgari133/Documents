@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Broken Auth{% endblock %}
+{% block content %}
+<h1>Broken Authentication Lab</h1>
+<div class="explanation">
+    <strong>What is it?</strong> The app uses weak authentication: plaintext or trivial password checks, default accounts, and no lockout. Your goal: get in without knowing a real password, or enumerate users.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Check the README or homepage for default credentials (e.g. admin / admin). Try logging in with those.</li>
+        <li>There is no rate limiting—you can try many passwords without being blocked (brute force / credential stuffing would be possible in a real scenario).</li>
+        <li>Passwords are compared in plaintext; if you could read the DB (e.g. via SQLi), you’d see them directly.</li>
+    </ul>
+</details>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="post">
+    <label>Username: <input type="text" name="username" /></label>
+    <label>Password: <input type="password" name="password" /></label>
+    <button type="submit">Login</button>
+</form>
+<p><a href="{{ url_for('misc.index') }}">Back</a></p>
+{% endblock %}

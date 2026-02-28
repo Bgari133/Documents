@@ -1,0 +1,2 @@
+Welcome to VulnLab. This file is in the files/ directory.
+Use path traversal to try to read other files.

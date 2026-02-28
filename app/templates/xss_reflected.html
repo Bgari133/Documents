@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Reflected XSS{% endblock %}
+{% block content %}
+<h1>Reflected XSS Lab</h1>
+<div class="explanation">
+    <strong>What is it?</strong> Your input is echoed back in the page. If the server doesn’t encode it, the browser may treat it as HTML/JS. Goal: run your own script in the victim’s browser (e.g. steal cookies, show an alert).
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Try typing <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> in the search box and submitting. If you see an alert, XSS works.</li>
+        <li>If that’s blocked or encoded, try other tags: <code>&lt;img src=x onerror=alert(1)&gt;</code> or <code>&lt;svg onload=alert(1)&gt;</code>.</li>
+        <li>In a real attack you’d send a link with the payload in the <code>q</code> parameter so the victim’s browser executes your script when they open it.</li>
+    </ul>
+</details>
+<form method="get" action="">
+    <label>Query: <input type="text" name="q" value="{{ q }}" /></label>
+    <button type="submit">Search</button>
+</form>
+{% if q %}
+<p>You searched for: {{ q|safe }}</p>
+{% endif %}
+{% endblock %}

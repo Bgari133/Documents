@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}CSRF{% endblock %}
+{% block content %}
+<h1>CSRF Lab</h1>
+<div class="explanation">
+    <strong>What is it?</strong> Cross-Site Request Forgery: the transfer form doesn’t use a CSRF token. If a victim is logged in and visits a page you control, your page can submit a transfer form in their name and the browser will send their cookies—so the server thinks the victim made the request.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Log in first (e.g. as user1) so you have a session. Note your balance and the transfer URL (<code>/transfer/</code>, method POST, fields <code>to_user</code> and <code>amount</code>).</li>
+        <li>Create an HTML file that contains a form with the same action and method, hidden fields for <code>to_user</code> and <code>amount</code>, and <code>auto-submit</code> via JS or a submit button. When you open that HTML while logged in, it will send a transfer.</li>
+        <li>Or use a one-line link that does a GET (only if the app accepted GET for transfers—here it’s POST, so you need a form). The fix is to require a CSRF token that only the real site can provide.</li>
+    </ul>
+</details>
+<p>Your balance: {{ balance }}</p>
+{% if msg %}<p class="success">{{ msg }}</p>{% endif %}
+<form method="post">
+    <label>To user ID: <input type="number" name="to_user" value="2" /></label>
+    <label>Amount: <input type="number" name="amount" value="100" /></label>
+    <button type="submit">Transfer</button>
+</form>
+{% endblock %}

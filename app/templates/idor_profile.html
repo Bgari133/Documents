@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}User {{ user.id }}{% endblock %}
+{% block content %}
+<h1>IDOR Lab – User Profile</h1>
+<div class="explanation">
+    <strong>What is it?</strong> Insecure Direct Object Reference: the app uses the ID from the URL to load a user’s profile but never checks if you’re allowed to see that user. By changing the ID you can access other users’ data.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>You’re viewing one user’s profile. Change the number in the URL (e.g. <code>/users/1</code> to <code>/users/2</code> or <code>/users/3</code>) and reload.</li>
+        <li>Notice that passwords (and other sensitive fields) are returned. In a real app this would be a serious data leak.</li>
+        <li>Fix: the server should check that the logged-in user is allowed to see the requested resource (e.g. only their own profile or admin role).</li>
+    </ul>
+</details>
+<dl>
+    <dt>ID</dt><dd>{{ user.id }}</dd>
+    <dt>Username</dt><dd>{{ user.username }}</dd>
+    <dt>Email</dt><dd>{{ user.email }}</dd>
+    <dt>Role</dt><dd>{{ user.role }}</dd>
+    <dt>Password (plaintext)</dt><dd>{{ user.password }}</dd>
+</dl>
+{% endblock %}

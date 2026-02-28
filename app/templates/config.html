@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Config{% endblock %}
+{% block content %}
+<h1>Sensitive Data Exposure – Config</h1>
+<div class="explanation">
+    <strong>What is it?</strong> Sensitive data exposure means the app leaks secrets (API keys, DB URLs, <code>SECRET_KEY</code>, env vars). Attackers use these to impersonate the app, access backends, or forge sessions.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>This page intentionally shows config and environment. In a real test you might find such data in error messages, <code>/config</code>, <code>/debug</code>, or backup files.</li>
+        <li>Try visiting <code>/debug</code>—it raises an exception that may include the <code>SECRET_KEY</code> in the traceback when DEBUG is on.</li>
+        <li>Use leaked <code>SECRET_KEY</code> to sign or forge session cookies (e.g. with Flask’s session format). Fix: never expose config/debug in production; use env vars and restrict error pages.</li>
+    </ul>
+</details>
+<h2>Config</h2>
+<pre>{% for k, v in config.items() %}{{ k }}: {{ v }}
+{% endfor %}</pre>
+<h2>Environment</h2>
+<pre>{% for k, v in env.items() %}{{ k }}: {{ v }}
+{% endfor %}</pre>
+{% endblock %}

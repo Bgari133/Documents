@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Stored XSS{% endblock %}
+{% block content %}
+<h1>Stored XSS Lab</h1>
+<div class="explanation">
+    <strong>What is it?</strong> Whatever you post in the comment is saved and shown to everyone who views the page. If the server doesn’t escape HTML, your script runs in every visitor’s browser—no need to send a link.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Post a comment that includes HTML/JS, e.g. <code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code>. Reload the page—the script runs when the comment is rendered.</li>
+        <li>Try storing <code>&lt;img src=x onerror=alert(document.cookie)&gt;</code> to see how cookie theft could work (cookie may be empty if not logged in).</li>
+        <li>Stored XSS is worse than reflected: one payload affects all users who view that page.</li>
+    </ul>
+</details>
+<form method="post">
+    <label>Author: <input type="text" name="author" value="Anonymous" /></label>
+    <label>Comment: <textarea name="content"></textarea></label>
+    <button type="submit">Post</button>
+</form>
+<hr />
+<h2>Comments</h2>
+{% for c in comments %}
+<div>
+    <strong>{{ c.author }}</strong> – {{ c.created_at }}<br />
+    {{ c.content|safe }}
+</div>
+<hr />
+{% endfor %}
+{% endblock %}

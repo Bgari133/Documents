@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Insecure Deserialization{% endblock %}
+{% block content %}
+<h1>Insecure Deserialization Lab</h1>
+<div class="explanation">
+    <strong>What is it?</strong> The server takes your input, base64-decodes it, and passes it to <code>pickle.loads()</code>. Pickle can execute arbitrary Python code when deserializing. If you send a crafted payload, you can run code on the server.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>You need to build a pickle payload that runs a command when loaded. In Python: create a class whose <code>__reduce__</code> returns <code>(os.system, ('whoami',))</code> or <code>(subprocess.check_output, (['whoami'],))</code>, then <code>pickle.dumps(evil_object)</code>, then base64-encode and submit.</li>
+        <li>Example (run in Python): <code>import pickle, base64, os</code> then define a class with <code>__reduce__</code> returning a call to <code>os.system</code> or <code>eval</code>. Encode: <code>base64.b64encode(pickle.dumps(YourClass()))</code> and paste the result into the form.</li>
+        <li>The server will run your payload when it calls <code>pickle.loads()</code>. Fix: don’t deserialize untrusted data with pickle; use JSON or a format that doesn’t execute code.</li>
+    </ul>
+</details>
+<form method="post">
+    <label>Base64 pickle data: <textarea name="data" rows="3"></textarea></label>
+    <button type="submit">Deserialize</button>
+</form>
+{% if result %}
+<pre>{{ result }}</pre>
+{% endif %}
+{% endblock %}

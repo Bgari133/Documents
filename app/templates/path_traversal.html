@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Path Traversal{% endblock %}
+{% block content %}
+<h1>Path Traversal Lab</h1>
+<div class="explanation">
+    <strong>What is it?</strong> The app serves “files” by taking a filename from you and joining it to a folder path. If it doesn’t sanitize <code>..</code>, you can escape that folder and read arbitrary files (e.g. /etc/passwd on Linux).
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Normal use: <code>name=welcome.txt</code> reads a file from the intended directory. Try <code>name=../etc/passwd</code> (Linux/Docker) or <code>name=..\..\..\windows\system32\drivers\etc\hosts</code> (Windows) to go up directories.</li>
+        <li>You may need several <code>../</code> to reach the root, e.g. <code>....//....//....//etc/passwd</code> or just <code>../../../etc/passwd</code> depending on where the app runs.</li>
+        <li>In Docker the app runs on Linux, so <code>/etc/passwd</code> is a good target. The fix is to validate the final path and ensure it stays under the allowed directory.</li>
+    </ul>
+</details>
+<form method="get" action="{{ url_for('path_traversal.read') }}">
+    <label>Filename: <input type="text" name="name" value="welcome.txt" /></label>
+    <button type="submit">Read</button>
+</form>
+<p>Sample: <a href="{{ url_for('path_traversal.read') }}?name=welcome.txt">welcome.txt</a></p>
+{% endblock %}

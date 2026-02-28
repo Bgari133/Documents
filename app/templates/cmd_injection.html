@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Command Injection{% endblock %}
+{% block content %}
+<h1>Command Injection Lab</h1>
+<div class="explanation">
+    <strong>What is it?</strong> The server runs a system command (e.g. <code>ping</code>) and puts your input into that command. If it uses a shell and doesn’t sanitize, you can add more commands and run anything the app’s process can run.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Normal input: <code>127.0.0.1</code> runs something like <code>ping -c 2 127.0.0.1</code>. Try ending the ping and running another command: <code>127.0.0.1 &amp;&amp; whoami</code> (Linux) or <code>127.0.0.1 &amp; whoami</code> (Windows).</li>
+        <li>Other options: <code>; id</code>, <code>| cat /etc/passwd</code>, or <code>$(whoami)</code> (command substitution). The output will appear in the “Ping” result area.</li>
+        <li>In Docker the container is Linux, so use Linux commands (<code>whoami</code>, <code>id</code>, <code>cat /etc/passwd</code>). Fix: use an allowlist or an API that doesn’t invoke a shell.</li>
+    </ul>
+</details>
+<form method="post">
+    <label>Host: <input type="text" name="host" value="127.0.0.1" /></label>
+    <button type="submit">Ping</button>
+</form>
+{% if output %}
+<pre>{{ output }}</pre>
+{% endif %}
+{% endblock %}

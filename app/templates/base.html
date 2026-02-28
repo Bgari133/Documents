@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VulnLab{% endblock %} | Pen-Test Training</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; margin: 0; padding: 1rem; max-width: 900px; margin-left: auto; margin-right: auto; }
+        nav { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #ccc; }
+        nav a { margin-right: 1rem; }
+        h1 { font-size: 1.25rem; }
+        .vuln-list { list-style: none; padding: 0; }
+        .vuln-list li { margin: 0.5rem 0; }
+        .vuln-list a { text-decoration: none; }
+        form label { display: block; margin-top: 0.5rem; }
+        form input, form textarea { width: 100%; max-width: 400px; padding: 0.25rem; }
+        .error { color: #c00; }
+        .success { color: #060; }
+        .explanation { background: #f0f4f8; padding: 0.75rem 1rem; margin: 1rem 0; border-left: 4px solid #369; }
+        .hints { margin: 1rem 0; }
+        .hints summary { cursor: pointer; font-weight: bold; }
+        .hints ul { margin: 0.5rem 0 0 1rem; padding-left: 1rem; }
+        .hints li { margin: 0.25rem 0; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('misc.index') }}">Home</a> |
+        <a href="{{ url_for('sqli.index') }}">SQLi</a> |
+        <a href="{{ url_for('xss.reflected') }}">XSS Reflected</a> |
+        <a href="{{ url_for('xss.stored') }}">XSS Stored</a> |
+        <a href="{{ url_for('auth.login') }}">Auth</a> |
+        <a href="{{ url_for('idor.user_profile', user_id=1) }}">IDOR</a> |
+        <a href="{{ url_for('path_traversal.index') }}">Path Traversal</a> |
+        <a href="{{ url_for('cmd_injection.index') }}">Command Injection</a> |
+        <a href="{{ url_for('csrf.index') }}">CSRF</a> |
+        <a href="{{ url_for('deserialize.index') }}">Deserialize</a> |
+        <a href="{{ url_for('misc.config') }}">Config</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}SQL Injection{% endblock %}
+{% block content %}
+<h1>SQL Injection Lab</h1>
+<div class="explanation">
+    <strong>What is it?</strong> The app builds a SQL query by concatenating your input. If you can break out of the string and add your own SQL, you can read other rows, dump the table, or bypass checks.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Think about how the query might look: <code>SELECT ... WHERE username = 'YOUR_INPUT'</code>. What if YOUR_INPUT closes the quote?</li>
+        <li>Try a single quote <code>'</code> first—see if you get an error (confirms SQLi).</li>
+        <li>To return all users: use something like <code>' OR '1'='1</code> or <code>' OR 1=1 --</code> so the condition is always true.</li>
+        <li>To list all columns/tables: in SQLite you can use <code>UNION SELECT</code> with the same number of columns (here: id, username, email).</li>
+    </ul>
+</details>
+<form method="post">
+    <label>Username: <input type="text" name="q" placeholder="e.g. admin" /></label>
+    <button type="submit">Search</button>
+</form>
+{% if results is defined and results %}
+<ul>
+    {% for r in results %}
+    <li>ID: {{ r.id }}, Username: {{ r.username }}, Email: {{ r.email }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
