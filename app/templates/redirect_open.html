@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Open Redirect{% endblock %}
+{% block content %}
+<h1>Open Redirect Lab</h1>
+<p><strong>OWASP / CWE-601:</strong> The app redirects to a URL taken from the user without an allowlist. Attackers can send a link that redirects victims to a phishing or malicious site.</p>
+<div class="explanation">
+    <strong>What is it?</strong> A parameter like <code>url=</code> or <code>next=</code> is used to send the user to another page. If the server does not check that the URL is on the same site or an allowlist, any URL can be used.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Try <code>/redirect/go?url=https://example.com</code> – you should be redirected to example.com.</li>
+        <li>In a real attack, the link might look like <code>https://trusted-site.com/redirect?url=https://evil.com</code> so the victim thinks they are on trusted-site.com.</li>
+        <li>Fix: allowlist allowed domains or paths; reject off-site URLs; or use a token that maps to a server-side URL.</li>
+    </ul>
+</details>
+<div class="exploit-details">
+    <p><strong>Vulnerable code (Python/Flask):</strong></p>
+    <pre class="code-example"><code>url = request.args.get("url", "/")
+return redirect(url)  # No check – any URL is used</code></pre>
+    <p><strong>Safe code:</strong> Check that <code>url</code> is relative or that the host is in an allowlist before redirecting.</p>
+</div>
+<p>Try: <a href="{{ url_for('redirect_open.go') }}?url={{ url_for('misc.index', _external=True) }}">Redirect to home</a> or <a href="{{ url_for('redirect_open.go') }}?url=https://example.com">Redirect to example.com</a>.</p>
+<form method="get" action="{{ url_for('redirect_open.go') }}">
+    <label>URL: <input type="text" name="url" value="https://example.com" style="width:100%; max-width:400px;" /></label>
+    <button type="submit">Go</button>
+</form>
+<p><a href="{{ url_for('misc.index') }}">Back to Home</a></p>
+{% endblock %}

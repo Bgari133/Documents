@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}SQLi – Error-based{% endblock %}
+{% block content %}
+<h1>SQL Injection – Error-based</h1>
+<p>Trigger SQL syntax or runtime errors; the server echoes the error message. Attackers use these messages to infer DB structure or extract data. <a href="{{ url_for('sqli.index') }}">See how exploitation works</a>.</p>
+<div class="explanation">
+    <strong>Goal:</strong> Cause an error (e.g. <code>'</code> or <code>' AND 1=convert(int,@@version)--</code>) and read the error to learn DB type, version, or data.
+</div>
+<div class="exploit-details">
+    <p><strong>Vulnerable pattern:</strong> Same concatenation as classic; errors are not caught or are returned to the user.</p>
+    <pre class="code-example"><code>sql = "SELECT ... WHERE username = '" + q + "'"
+try:
+    cur.execute(sql)
+except Exception as e:
+    return str(e)  # Bad: exposes internal details</code></pre>
+</div>
+{% if search_error %}
+<p class="error"><strong>SQL error:</strong> {{ search_error }}</p>
+{% endif %}
+<form method="post" action="{{ url_for('sqli.error_based') }}">
+    <label>Payload: <input type="text" name="q" placeholder="' or 1=1--" /></label>
+    <button type="submit">Run</button>
+</form>
+<p><a href="{{ url_for('sqli.index') }}">Back to SQLi hub</a></p>
+{% endblock %}

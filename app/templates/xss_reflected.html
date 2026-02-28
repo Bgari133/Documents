@@ -24,6 +24,14 @@
         </ul>
     </details>
     <p><strong>Remediation:</strong> Encode output (e.g. HTML escape); use Content-Security-Policy; HttpOnly and SameSite on cookies.</p>
+    <details><summary>Code example – why it works</summary>
+        <p><strong>Vulnerable (Jinja):</strong> <code>{{ "{{ q|safe }}" }}</code> – output is marked “safe” so the browser interprets HTML/JS.</p>
+        <pre class="code-example"><code># Flask view
+q = request.args.get("q", "")
+return render_template("search.html", q=q)
+# In template: {{ q|safe }}  ← dangerous</code></pre>
+        <p><strong>Safe:</strong> Omit <code>|safe</code> so Jinja escapes: <code>{{ "{{ q }}" }}</code> → <code>&amp;lt;script&amp;gt;</code>.</p>
+    </details>
 </div>
 <form method="get" action="">
     <label>Query: <input type="text" name="q" value="{{ q }}" /></label>

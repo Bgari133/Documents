@@ -23,6 +23,11 @@
         </ul>
     </details>
     <p><strong>Remediation:</strong> Encode all user-generated content when rendering; sanitize/allowlist on input; CSP and secure cookie flags.</p>
+    <details><summary>Code example</summary>
+        <p><strong>Vulnerable:</strong> Store comment and render with <code>|safe</code> so HTML/JS runs.</p>
+        <pre class="code-example"><code># Template: {{ c.content|safe }}  ← stored content not escaped</code></pre>
+        <p><strong>Safe:</strong> Omit <code>|safe</code> so Jinja escapes; or sanitize on input with an allowlist.</p>
+    </details>
 </div>
 <form method="post">
     <label>Author: <input type="text" name="author" value="Anonymous" /></label>

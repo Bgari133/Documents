@@ -13,6 +13,7 @@ def index():
 def search():
     """Classic / in-band: vulnerable search with concatenation."""
     results = []
+    search_error = None
     if request.method == "POST":
         q = request.form.get("q", "")
         cur = g.db.cursor()
@@ -21,9 +22,10 @@ def search():
             cur.execute(sql)
             rows = cur.fetchall()
             results = [dict(row) for row in rows]
-        except Exception:
+        except Exception as e:
+            search_error = str(e)
             results = []
-    return render_template("sqli_search.html", results=results)
+    return render_template("sqli_search.html", results=results, search_error=search_error)
 
 
 @bp.route("/login", methods=["GET", "POST"])
@@ -60,6 +62,22 @@ def union():
         except Exception:
             results = []
     return render_template("sqli_union.html", results=results)
+
+
+@bp.route("/error", methods=["GET", "POST"])
+def error_based():
+    """Error-based: trigger SQL errors and show message so attacker can extract data from error content."""
+    err_msg = None
+    if request.method == "POST":
+        q = request.form.get("q", "")
+        cur = g.db.cursor()
+        sql = "SELECT id, username, email FROM users WHERE username = '" + q + "'"
+        try:
+            cur.execute(sql)
+            cur.fetchall()
+        except Exception as e:
+            err_msg = str(e)
+    return render_template("sqli_error.html", search_error=err_msg)
 
 
 @bp.route("/blind", methods=["GET", "POST"])

@@ -8,6 +8,9 @@ from app.routes.csrf import bp as csrf_bp
 from app.routes.deserialize import bp as deserialize_bp
 from app.routes.ssrf import bp as ssrf_bp
 from app.routes.crypto import bp as crypto_bp
+from app.routes.redirect_open import bp as redirect_open_bp
+from app.routes.xxe import bp as xxe_bp
+from app.routes.clickjacking import bp as clickjacking_bp
 from app.routes.misc import bp as misc_bp
 
 __all__ = [
@@ -21,5 +24,8 @@ __all__ = [
     "deserialize_bp",
     "ssrf_bp",
     "crypto_bp",
+    "redirect_open_bp",
+    "xxe_bp",
+    "clickjacking_bp",
     "misc_bp",
 ]

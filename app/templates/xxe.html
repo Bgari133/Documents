@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}XXE{% endblock %}
+{% block content %}
+<h1>XML External Entity (XXE) Lab</h1>
+<p><strong>OWASP A03 / CWE-611:</strong> The server parses XML from the user with external entities enabled. An attacker can define an entity that reads local files or triggers SSRF.</p>
+<div class="explanation">
+    <strong>What is it?</strong> If the XML parser resolves external entities (e.g. <code>&lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;</code>), the attacker can read files or make the server request URLs.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Submit XML that includes a DOCTYPE with an external entity. Example: <code>&lt;!DOCTYPE foo [&lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;]&gt;&lt;root&gt;&amp;xxe;&lt;/root&gt;</code></li>
+        <li>Python’s default <code>xml.etree.ElementTree</code> does not expand external entities; this lab shows the vulnerable pattern and code. Use a vulnerable parser (e.g. older Java/PHP defaults) or defusedxml to test.</li>
+        <li>Fix: Disable external entities and DTD in the parser; use a safe parser (e.g. defusedxml in Python).</li>
+    </ul>
+</details>
+<div class="exploit-details">
+    <p><strong>Vulnerable code (concept – e.g. Java/PHP):</strong></p>
+    <pre class="code-example"><code>// Parser with external entities enabled (default in some libs)
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+// dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);  // Safe
+Document doc = dbf.newDocumentBuilder().parse(input);</code></pre>
+    <p><strong>Safe code (Python):</strong> Use <code>defusedxml</code> or disable external entities in the parser.</p>
+</div>
+<form method="post" action="{{ url_for('xxe.index') }}">
+    <label>XML: <textarea name="xml" rows="6" style="width:100%; max-width:500px;"><root><name>test</name></root></textarea></label>
+    <button type="submit">Parse</button>
+</form>
+{% if result %}
+<pre class="code-example">{{ result }}</pre>
+{% endif %}
+<p><a href="{{ url_for('misc.index') }}">Back to Home</a></p>
+{% endblock %}

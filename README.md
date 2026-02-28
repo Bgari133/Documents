@@ -34,7 +34,7 @@ The app includes labs aligned to [OWASP Top 10:2021](https://owasp.org/Top10/). 
 
 | # | OWASP | Vulnerability | Route | Notes |
 |---|-------|----------------|-------|--------|
-| 1 | A03 | SQL Injection | `/sqli` | Raw SQL concatenation; try `' OR '1'='1` |
+| 1 | A03 | SQL Injection | `/sqli` | **Types:** Classic, Error-based, Login bypass, Union, Blind (see hub for code examples) |
 | 2 | – | Reflected XSS | `/xss/reflected` | Query echoed without encoding |
 | 3 | – | Stored XSS | `/xss/stored` | Comments stored and rendered with `\|safe` |
 | 4 | A07 | Broken Authentication | `/auth/login` | Weak check, default creds, no rate limit |
@@ -47,8 +47,11 @@ The app includes labs aligned to [OWASP Top 10:2021](https://owasp.org/Top10/). 
 | 11 | A02 | Cryptographic Failures | `/crypto` | MD5 “hashing”, plaintext passwords in DB |
 | 12 | A02/A05 | Sensitive Data Exposure | `/config`, `/debug` | Config and env leaked; debug raises with secret |
 | 13 | A05 | Security Misconfiguration | App-wide | `DEBUG=True`, default credentials in this README |
+| 14 | CWE-601 | Open Redirect | `/redirect` | Redirect to user-supplied URL; no allowlist |
+| 15 | A03 | XXE | `/xxe` | XML parsing with external entities (code examples) |
+| 16 | CWE-1021 | Clickjacking | `/clickjacking` | No X-Frame-Options; victim + attacker demo |
 
-Each lab page includes **exploitation details**: OWASP category, impact, example payloads (expandable), and remediation.
+Each lab page includes **exploitation details**, **code examples** (vulnerable vs safe where applicable), OWASP category, impact, example payloads, and remediation.
 
 ## Default credentials
 

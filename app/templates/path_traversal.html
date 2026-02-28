@@ -23,6 +23,13 @@
         </ul>
     </details>
     <p><strong>Remediation:</strong> Use a safe base path and <code>os.path.realpath</code>; reject if resolved path is not under base; avoid user input in file paths.</p>
+    <details><summary>Code example</summary>
+        <p><strong>Vulnerable (Python):</strong></p>
+        <pre class="code-example"><code>name = request.args.get("name", "welcome.txt")
+path = os.path.join(FILES_DIR, name)  # No normalization
+return send_file(path)  # name=../../../etc/passwd escapes</code></pre>
+        <p><strong>Safe:</strong> <code>real = os.path.realpath(path)</code> then check <code>real.startswith(os.path.realpath(FILES_DIR))</code>.</p>
+    </details>
 </div>
 <form method="get" action="{{ url_for('path_traversal.read') }}">
     <label>Filename: <input type="text" name="name" value="welcome.txt" /></label>

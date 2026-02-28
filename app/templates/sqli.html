@@ -3,11 +3,24 @@
 {% block content %}
 <h1>SQL Injection – Hub</h1>
 <p>Choose a lab below. Each endpoint is <strong>intentionally vulnerable</strong> for training. Run this app only in an isolated lab environment.</p>
+
+<h2>SQL injection types (versions)</h2>
+<table class="owasp-table">
+    <thead><tr><th>Type</th><th>Route</th><th>Description</th></tr></thead>
+    <tbody>
+        <tr><td>Classic / In-band</td><td><a href="{{ url_for('sqli.search') }}">/sqli/search</a></td><td>Search by username; return all rows or trigger errors. Data returned in response.</td></tr>
+        <tr><td>Error-based</td><td><a href="{{ url_for('sqli.error_based') }}">/sqli/error</a></td><td>Trigger SQL errors and use the error message to extract data (e.g. version, table names).</td></tr>
+        <tr><td>Login bypass</td><td><a href="{{ url_for('sqli.login_bypass') }}">/sqli/login</a></td><td>Bypass authentication with <code>' OR '1'='1</code> in password.</td></tr>
+        <tr><td>Union-based</td><td><a href="{{ url_for('sqli.union') }}">/sqli/union</a></td><td>Use <code>UNION SELECT</code> to dump passwords or other columns.</td></tr>
+        <tr><td>Boolean blind</td><td><a href="{{ url_for('sqli.blind') }}">/sqli/blind</a></td><td>Only “User exists” / “Not found”; infer data one character at a time.</td></tr>
+    </tbody>
+</table>
 <ul class="vuln-list">
-    <li><a href="{{ url_for('sqli.search') }}">Classic / In-band</a> – Search by username; return all rows or trigger errors.</li>
-    <li><a href="{{ url_for('sqli.login_bypass') }}">Login bypass</a> – Bypass authentication with <code>' OR '1'='1</code> in password.</li>
-    <li><a href="{{ url_for('sqli.union') }}">Union-based</a> – Use <code>UNION SELECT</code> to dump passwords.</li>
-    <li><a href="{{ url_for('sqli.blind') }}">Boolean blind</a> – Infer data from “User exists” / “User does not exist” only.</li>
+    <li><a href="{{ url_for('sqli.search') }}">Classic / In-band</a> – Search; return all rows or trigger errors.</li>
+    <li><a href="{{ url_for('sqli.error_based') }}">Error-based</a> – Use error messages to extract information.</li>
+    <li><a href="{{ url_for('sqli.login_bypass') }}">Login bypass</a> – Bypass auth with <code>' OR '1'='1</code>.</li>
+    <li><a href="{{ url_for('sqli.union') }}">Union-based</a> – <code>UNION SELECT</code> to dump data.</li>
+    <li><a href="{{ url_for('sqli.blind') }}">Boolean blind</a> – Infer from true/false only.</li>
 </ul>
 
 <h2>How SQL injection works</h2>

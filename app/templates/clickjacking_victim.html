@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Safe action</title>
+    <style>
+        body { font-family: system-ui; padding: 2rem; text-align: center; }
+        .btn { padding: 1rem 2rem; font-size: 1.2rem; background: #28a745; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>You are on the victim page</h1>
+    <p>This page has no X-Frame-Options, so it can be loaded in an iframe.</p>
+    <button class="btn" onclick="alert('Real button clicked!')">I am a real button</button>
+</body>
+</html>

@@ -53,7 +53,8 @@ def create_app():
     app.config["DEBUG"] = True  # Intentional misconfiguration
 
     from app.routes import sqli_bp, xss_bp, auth_bp, idor_bp, path_traversal_bp
-    from app.routes import cmd_injection_bp, csrf_bp, deserialize_bp, ssrf_bp, crypto_bp, misc_bp
+    from app.routes import cmd_injection_bp, csrf_bp, deserialize_bp, ssrf_bp, crypto_bp
+    from app.routes import redirect_open_bp, xxe_bp, clickjacking_bp, misc_bp
 
     app.register_blueprint(sqli_bp, url_prefix="/sqli")
     app.register_blueprint(xss_bp, url_prefix="/xss")
@@ -65,6 +66,9 @@ def create_app():
     app.register_blueprint(deserialize_bp, url_prefix="/deserialize")
     app.register_blueprint(ssrf_bp, url_prefix="/ssrf")
     app.register_blueprint(crypto_bp, url_prefix="/crypto")
+    app.register_blueprint(redirect_open_bp, url_prefix="/redirect")
+    app.register_blueprint(xxe_bp, url_prefix="/xxe")
+    app.register_blueprint(clickjacking_bp, url_prefix="/clickjacking")
     app.register_blueprint(misc_bp)
 
     @app.before_request

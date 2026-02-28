@@ -24,6 +24,13 @@
         </ul>
     </details>
     <p><strong>Remediation:</strong> Avoid shell invocation; use allowlisted inputs or safe APIs (e.g. library to ping); run with minimal privileges.</p>
+    <details><summary>Code example</summary>
+        <p><strong>Vulnerable (Python):</strong></p>
+        <pre class="code-example"><code>host = request.form.get("host", "127.0.0.1")
+output = subprocess.getoutput("ping -c 2 " + host)  # Shell interprets host</code></pre>
+        <p>Input <code>127.0.0.1 &amp;&amp; whoami</code> runs <code>ping -c 2 127.0.0.1 &amp;&amp; whoami</code> in the shell.</p>
+        <p><strong>Safe:</strong> No shell; allowlist (e.g. only digits and dots) or use a library that doesn’t invoke a shell.</p>
+    </details>
 </div>
 <form method="post">
     <label>Host: <input type="text" name="host" value="127.0.0.1" /></label>

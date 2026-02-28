@@ -20,8 +20,8 @@
         </tr>
         <tr>
             <td><strong>A03:2021</strong> Injection</td>
-            <td><a href="{{ url_for('sqli.index') }}">SQLi</a>, <a href="{{ url_for('cmd_injection.index') }}">Command Injection</a>; XSS (client-side)</td>
-            <td>Data breach, RCE, account takeover.</td>
+            <td><a href="{{ url_for('sqli.index') }}">SQLi</a>, <a href="{{ url_for('cmd_injection.index') }}">Command Injection</a>, <a href="{{ url_for('xxe.index') }}">XXE</a>; XSS (client-side)</td>
+            <td>Data breach, RCE, account takeover, file read.</td>
         </tr>
         <tr>
             <td><strong>A04:2021</strong> Insecure Design</td>
@@ -60,5 +60,5 @@
         </tr>
     </tbody>
 </table>
-<p><strong>Cross-cutting:</strong> Reflected and <a href="{{ url_for('xss.stored') }}">Stored XSS</a> are often considered under Injection (A03) or as a separate client-side risk; they enable session theft and content manipulation.</p>
+<p><strong>Cross-cutting:</strong> Reflected and <a href="{{ url_for('xss.stored') }}">Stored XSS</a> (A03/CWE-79); <a href="{{ url_for('redirect_open.index') }}">Open Redirect</a> (CWE-601, phishing); <a href="{{ url_for('clickjacking.index') }}">Clickjacking</a> (CWE-1021, UI redressing).</p>
 {% endblock %}

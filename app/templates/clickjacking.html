@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Clickjacking{% endblock %}
+{% block content %}
+<h1>Clickjacking Lab</h1>
+<p><strong>CWE-1021:</strong> A page is embedded in an invisible or misleading iframe so the user thinks they are clicking one thing but actually triggers an action on the framed site.</p>
+<div class="explanation">
+    <strong>What is it?</strong> The victim page does not set <code>X-Frame-Options</code> or <code>Content-Security-Policy: frame-ancestors</code>, so an attacker can load it in an iframe and overlay fake UI to trick clicks.
+</div>
+<details class="hints">
+    <summary>Hints (click to expand)</summary>
+    <ul>
+        <li>Open <a href="{{ url_for('clickjacking.victim') }}">/clickjacking/victim</a> – it’s a “safe” button. Then open <a href="{{ url_for('clickjacking.attacker') }}">/clickjacking/attacker</a> – the same page is in an iframe with a fake overlay; the user might click the real button by mistake.</li>
+        <li>Fix: Set <code>X-Frame-Options: DENY</code> or <code>SAMEORIGIN</code>, or <code>Content-Security-Policy: frame-ancestors 'none'</code>.</li>
+    </ul>
+</details>
+<div class="exploit-details">
+    <p><strong>Vulnerable response (missing headers):</strong></p>
+    <pre class="code-example"><code># No X-Frame-Options or CSP frame-ancestors
+return render_template("victim.html")</code></pre>
+    <p><strong>Safe code:</strong></p>
+    <pre class="code-example"><code>resp = make_response(render_template("victim.html"))
+resp.headers["X-Frame-Options"] = "DENY"
+return resp</code></pre>
+</div>
+<p><a href="{{ url_for('clickjacking.victim') }}">Victim page</a> | <a href="{{ url_for('clickjacking.attacker') }}">Attacker demo (iframe)</a></p>
+<p><a href="{{ url_for('misc.index') }}">Back to Home</a></p>
+{% endblock %}
