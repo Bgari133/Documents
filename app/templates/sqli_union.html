@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}SQLi – Union-based{% endblock %}
+{% block content %}
+<h1>SQL Injection – Union-based</h1>
+<p>Same vulnerable search; use <code>UNION SELECT</code> to add rows from another query. The main query returns 3 columns (id, username, email), so your UNION must also return 3 columns. <a href="{{ url_for('sqli.index') }}">See how exploitation works</a>.</p>
+<div class="explanation">
+    <strong>Goal:</strong> Dump passwords. Try: <code>' UNION SELECT id, username, password FROM users--</code> (the <code>--</code> comments out the rest of the original query).
+</div>
+<form method="post" action="{{ url_for('sqli.union') }}">
+    <label>Username / payload: <input type="text" name="q" placeholder="' UNION SELECT id, username, password FROM users--" style="width:100%; max-width:500px;" /></label>
+    <button type="submit">Search</button>
+</form>
+{% if results is defined and results and results|length > 0 %}
+<table>
+    <thead><tr>{% for key in results[0].keys() %}<th>{{ key }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for r in results %}
+    <tr>{% for key in r.keys() %}<td>{{ r[key] }}</td>{% endfor %}</tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% elif results is defined and results %}
+<p>No rows returned.</p>
+{% endif %}
+<p><a href="{{ url_for('sqli.index') }}">Back to SQLi hub</a></p>
+{% endblock %}

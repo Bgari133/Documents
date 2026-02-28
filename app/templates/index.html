@@ -6,7 +6,7 @@
 <p><strong>Each lab page has an explanation, expandable hints, and exploitation details</strong> (OWASP category, impact, example payloads, remediation). Start with the <a href="{{ url_for('misc.owasp') }}">OWASP Top 10</a> map to see how labs align to OWASP:2021.</p>
 <ul class="vuln-list">
     <li><a href="{{ url_for('misc.owasp') }}">OWASP Top 10:2021</a> – Map of all categories to labs</li>
-    <li><a href="{{ url_for('sqli.index') }}">1. SQL Injection (A03)</a> – /sqli</li>
+    <li><a href="{{ url_for('sqli.index') }}">1. SQL Injection (A03)</a> – <a href="{{ url_for('sqli.search') }}">Classic</a>, <a href="{{ url_for('sqli.login_bypass') }}">Login bypass</a>, <a href="{{ url_for('sqli.union') }}">Union</a>, <a href="{{ url_for('sqli.blind') }}">Blind</a></li>
     <li><a href="{{ url_for('xss.reflected') }}">2. Reflected XSS</a> – /xss/reflected</li>
     <li><a href="{{ url_for('xss.stored') }}">3. Stored XSS</a> – /xss/stored</li>
     <li><a href="{{ url_for('auth.login') }}">4. Broken Authentication (A07)</a> – /auth/login</li>

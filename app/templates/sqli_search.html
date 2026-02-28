@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}SQLi – Classic Search{% endblock %}
+{% block content %}
+<h1>SQL Injection – Classic / In-band</h1>
+<p>This endpoint is vulnerable because the search term is concatenated into the SQL string. <a href="{{ url_for('sqli.index') }}">See how exploitation works</a> (code examples on the hub).</p>
+<div class="explanation">
+    <strong>Goal:</strong> Return all users (e.g. <code>' OR '1'='1</code>) or trigger an error to confirm SQLi (e.g. <code>'</code>).
+</div>
+<form method="post" action="{{ url_for('sqli.search') }}">
+    <label>Username: <input type="text" name="q" placeholder="e.g. admin or ' OR '1'='1" /></label>
+    <button type="submit">Search</button>
+</form>
+{% if results is defined and results %}
+<ul>
+    {% for r in results %}
+    <li>ID: {{ r.id }}, Username: {{ r.username }}, Email: {{ r.email }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<p><a href="{{ url_for('sqli.index') }}">Back to SQLi hub</a></p>
+{% endblock %}
